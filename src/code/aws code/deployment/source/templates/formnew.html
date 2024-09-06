@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Interface</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Upload File and Manage Endpoint</h1>
+
+    <!-- File upload form -->
+    <form id="uploadForm" enctype="multipart/form-data" class="border p-4 bg-white rounded shadow-sm mb-4">
+        <div class="form-group">
+            <label for="fileInput">Upload Excel File</label>
+            <input type="file" class="form-control-file" name="file" id="fileInput" accept=".xlsx" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Upload File</button>
+    </form>
+
+    <!-- Start and End Demo buttons -->
+    <div class="d-flex justify-content-between mb-4">
+        <button id="startDemo" class="btn btn-success">Start Demo</button>
+        <button id="endDemo" class="btn btn-danger">End Demo</button>
+    </div>
+
+    <!-- Result display area -->
+    <div id="result" class="alert alert-info" style="display: none;"></div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // Handle file upload
+        $('#uploadForm').on('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: '/upload',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    $('#result').show().html('<pre>' + JSON.stringify(response, null, 2) + '</pre>');
+                },
+                error: function(xhr, status, error) {
+                    $('#result').show().html('Error: ' + xhr.responseText).addClass('alert-danger');
+                }
+            });
+        });
+
+        // Start demo
+        $('#startDemo').on('click', function() {
+            $.post('/start_demo', function(response) {
+                $('#result').show().html(response).removeClass('alert-danger').addClass('alert-success');
+            });
+        });
+
+        // End demo
+        $('#endDemo').on('click', function() {
+            $.post('/end_demo', function(response) {
+                $('#result').show().html(response).removeClass('alert-danger').addClass('alert-warning');
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
