@@ -46,7 +46,7 @@ The trained model was deployed on AWS SageMaker for real-time predictions. SageM
 API Endpoint: An endpoint was created using AWS SageMaker to enable real-time predictions on new data.
 
 Results
-The model achieved an accuracy of X% on the test dataset, with significant precision and recall metrics.
+The model achieved an accuracy of 80% on the test dataset, with significant precision and recall metrics.
 Feature importance analysis revealed that precipitation and soil moisture levels were the most critical predictors of drought conditions.
 
 Drought Prediction using Machine Learning based on datasets available at - https://www.kaggle.com/datasets/cdminix/us-drought-meteorological-data/code
